@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenpo - Automated UI & Code</title>
+    <style>
+        /* CSS Styles */
+
+        /* Style de base */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(to right, #6A11CB, #2575FC);
+            color: #fff;
+        }
+
+        .cta-button {
+            background-color: #ff5a5f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Use Case Section */
+        .use-cases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 50px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .case-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .case-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* KPI Section */
+        .kpis {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 20px;
+            background-color: #e3f2fd;
+        }
+
+        .kpi {
+            font-size: 24px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Parallax Effect */
+        .parallax {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure -->
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Save money & time by creating digital products with automated UIs and coding</h1>
+        <button class="cta-button">Book a demo</button>
+        <!-- Free Project Estimate Form -->
+        <div class="estimate-form">
+            <!-- Form contents here -->
+        </div>
+    </header>
+
+    <!-- Use Case Section -->
+    <section class="use-cases">
+        <h2>See how our solution adapts to a wide range of needs</h2>
+        <div class="cases">
+            <!-- Individual Use Cases as cards -->
+            <div class="case-card">Individual User</div>
+            <div class="case-card">UX/UI Designer</div>
+            <!-- Repeat for other personas -->
+        </div>
+    </section>
+
+    <!-- KPI Section -->
+    <section class="kpis">
+        <div class="kpi"><strong>50%</strong> faster cycle times</div>
+        <div class="kpi"><strong>30-50%</strong> cost savings</div>
+        <div class="kpi"><strong>25%</strong> higher productivity</div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature-card">Agile Training</div>
+        <div class="feature-card">Roadmap & Dashboard</div>
+        <!-- Add more features as needed -->
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="pricing-plan">
+            <h3>The Explorer</h3>
+            <p>€80 / month</p>
+            <!-- Details here -->
+        </div>
+        <!-- Repeat for other plans -->
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <!-- Footer content here -->
+    </footer>
+
+    <script>
+        // JavaScript for animations and interactions
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Animation d'apparition au défilement
+            const kpis = document.querySelectorAll('.kpi');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            kpis.forEach(kpi => {
+                observer.observe(kpi);
+            });
+            
+            // Parallax scrolling effect
+            window.addEventListener('scroll', function() {
+                const parallaxElements = document.querySelectorAll('.parallax');
+                parallaxElements.forEach(el => {
+                    let scrollPosition = window.scrollY;
+                    el.style.backgroundPositionY = (scrollPosition * 0.5) + "px";
+                });
+            });
+        });
+    </script>
+</body>
+</html>
