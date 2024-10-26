@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenpo - Automated UI & Code</title>
     <style>
-        /* Styles CSS de base */
+        /* Style de base */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -13,19 +13,38 @@
             color: #333;
         }
 
+        /* Conteneur principal */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 100px 20px;
+            padding: 60px 20px;
             background: linear-gradient(to right, #6A11CB, #2575FC);
             color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
         }
 
         .cta-button {
             background-color: #ff5a5f;
             color: #fff;
-            padding: 10px 20px;
+            padding: 15px 30px;
+            font-size: 1em;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
             transition: transform 0.3s;
         }
@@ -36,26 +55,31 @@
 
         /* Use Case Section */
         .use-cases {
-            padding: 50px 20px;
-            background-color: #f9f9f9;
             text-align: center;
+            padding: 60px 20px;
+            background-color: #f9f9f9;
         }
 
-        .cases {
+        .use-cases h2 {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .case-cards {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
-            padding-top: 20px;
         }
 
         .case-card {
             background: #fff;
             border: 1px solid #ddd;
             padding: 20px;
-            width: 200px;
+            width: 280px;
             text-align: center;
             transition: transform 0.3s;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .case-card:hover {
@@ -64,55 +88,64 @@
 
         /* KPI Section */
         .kpis {
-            display: flex;
-            justify-content: space-around;
-            padding: 50px 20px;
-            background-color: #e3f2fd;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            color: #333;
         }
 
         .kpi {
-            font-size: 24px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .kpi.visible {
-            opacity: 1;
-            transform: translateY(0);
+            font-size: 1.5em;
+            margin: 20px;
         }
 
         /* Features Section */
         .features {
+            background-color: #f1f1f1;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .feature-cards {
             display: flex;
+            flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
-            padding: 50px 20px;
         }
 
         .feature-card {
             background: #fff;
             border: 1px solid #ddd;
             padding: 20px;
-            width: 200px;
+            width: 280px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
         /* Pricing Section */
         .pricing {
+            background-color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .pricing-cards {
             display: flex;
             gap: 20px;
             justify-content: center;
-            padding: 50px 20px;
-            background-color: #f1f1f1;
         }
 
-        .pricing-plan {
+        .pricing-card {
             background: #fff;
             border: 1px solid #ddd;
             padding: 20px;
-            width: 200px;
-            text-align: center;
+            width: 280px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
         }
 
         /* Footer */
@@ -127,39 +160,74 @@
 <body>
 
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="hero container">
         <h1>Save money & time by creating digital products with automated UIs and coding</h1>
+        <p>Bring your design to development in minutes, with tools tailored to your needs.</p>
         <button class="cta-button">Book a demo</button>
     </header>
 
     <!-- Use Case Section -->
-    <section class="use-cases">
+    <section class="use-cases container">
         <h2>See how our solution adapts to a wide range of needs</h2>
-        <div class="cases">
+        <div class="case-cards">
             <div class="case-card">Individual User</div>
             <div class="case-card">UX/UI Designer</div>
+            <div class="case-card">Entrepreneur</div>
+            <div class="case-card">Front-End Developer</div>
+            <div class="case-card">Marketing Manager</div>
             <div class="case-card">Product Manager</div>
-            <div class="case-card">Developer</div>
+            <div class="case-card">Manager</div>
+            <div class="case-card">CTO</div>
         </div>
     </section>
 
     <!-- KPI Section -->
-    <section class="kpis">
+    <section class="kpis container">
         <div class="kpi"><strong>50%</strong> faster cycle times</div>
-        <div class="kpi"><strong>30-50%</strong> cost savings</div>
-        <div class="kpi"><strong>25%</strong> higher productivity</div>
+        <div class="kpi"><strong>50%</strong> cost savings</div>
+        <div class="kpi"><strong>35%</strong> higher productivity</div>
     </section>
 
     <!-- Features Section -->
-    <section class="features">
-        <div class="feature-card">Agile Training</div>
-        <div class="feature-card">Roadmap & Dashboard</div>
+    <section class="features container">
+        <h2>A complete suite of features to build what customers value</h2>
+        <div class="feature-cards">
+            <div class="feature-card">Agile Training</div>
+            <div class="feature-card">Roadmap & Dashboard</div>
+            <div class="feature-card">Brainstorming</div>
+            <div class="feature-card">Automatic Requirement Creation</div>
+            <div class="feature-card">Automatic UI</div>
+            <div class="feature-card">Automatic Code Creation</div>
+        </div>
     </section>
 
     <!-- Pricing Section -->
-    <section class="pricing">
-        <div class="pricing-plan">
-            <h3>The Explorer</h3>
-            <p>€80 / month</p>
+    <section class="pricing container">
+        <h2>Pricing</h2>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>The Explorer</h3>
+                <p>€80 / month</p>
+                <button class="cta-button">Get Started</button>
+            </div>
+            <div class="pricing-card">
+                <h3>The Achiever</h3>
+                <p>€300 / month</p>
+                <button class="cta-button">Get Started</button>
+            </div>
+            <div class="pricing-card">
+                <h3>The Doer</h3>
+                <p>€500 / month</p>
+                <button class="cta-button">Get Started</button>
+            </div>
         </div>
-        <div class="pricing-plan
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2023 Tenpo. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+
