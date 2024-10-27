@@ -1,40 +1,19 @@
-// REACH Stock Advisor App with Minimalist Dark Mode Design
+// REACH Stock Advisor App with Minimalist Dark Mode Design (Web Version)
 
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
-import { useState, useEffect } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { Tabs, Input, Button, List, Card, Layout } from 'antd';
+import { StarOutlined } from '@ant-design/icons';
+import 'antd/dist/antd.dark.css';
+import './ReachApp.css';
 
-const Tab = createBottomTabNavigator();
+const { TabPane } = Tabs;
+const { Header, Content } = Layout;
 
-const InvestmentsTab = () => {
+const ReachApp = () => {
   const [openPositions, setOpenPositions] = useState([
     { id: '1', name: 'Turbo AAPL - Call', profit: '+5%' },
     { id: '2', name: 'Turbo MSFT - Put', profit: '-3%' },
   ]);
-
-  const renderPosition = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.stockSymbol}>{item.name}</Text>
-      <Text style={styles.recommendationText}>{item.profit}</Text>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>My Investments</Text>
-      <FlatList
-        data={openPositions}
-        renderItem={renderPosition}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
-  );
-};
-
-const SearchTab = () => {
   const [searchText, setSearchText] = useState('');
   const [recommendations, setRecommendations] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -54,147 +33,103 @@ const SearchTab = () => {
   };
 
   const addFavorite = (symbol) => {
-    if (!favorites.includes(symbol)) {
-      setFavorites([...favorites, symbol]);
+    if (!favorites.some(fav => fav.symbol === symbol)) {
+      setFavorites([...favorites, { symbol, recommendation: `Turbo recommendation for ${symbol}` }]);
     }
   };
 
-  const renderRecommendation = ({ item }) => (
-    <View style={styles.cardHorizontal}>
-      <Text style={styles.stockSymbol}>{item.symbol}</Text>
-      <Text style={styles.recommendationText}>{item.recommendation}</Text>
-      <TouchableOpacity onPress={() => addFavorite(item.symbol)}>
-        <Ionicons name="star-outline" size={24} color="#ffb74d" />
-      </TouchableOpacity>
-    </View>
-  );
-
-  const renderFavorite = (symbol) => (
-    <View key={symbol} style={styles.card}>
-      <Text style={styles.stockSymbol}>{symbol}</Text>
-      <Text style={styles.recommendationText}>Turbo recommendation for {symbol}</Text>
-    </View>
-  );
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Search S&P 500 Companies</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter company name or symbol"
-        placeholderTextColor="#777"
-        value={searchText}
-        onChangeText={(text) => setSearchText(text)}
-      />
-      <Text style={styles.subtitle}>Top Performing Puts and Calls</Text>
-      <FlatList
-        data={recommendations}
-        renderItem={renderRecommendation}
-        keyExtractor={(item) => item.symbol}
-        horizontal
-      />
-      {favorites.length > 0 && (
-        <View style={styles.favoritesContainer}>
-          <Text style={styles.subtitle}>Favorite Companies</Text>
-          {favorites.map(renderFavorite)}
-        </View>
-      )}
-    </View>
+    <Layout>
+      <Header style={{ color: '#ffb74d', fontSize: '24px', fontWeight: 'bold', textAlign: 'center' }}>
+        REACH - Stock Advisor
+      </Header>
+      <Content style={{ padding: '20px' }}>
+        <Tabs defaultActiveKey="1" centered>
+          <TabPane tab="My Investments" key="1">
+            <List
+              grid={{ gutter: 16, column: 2 }}
+              dataSource={openPositions}
+              renderItem={item => (
+                <List.Item>
+                  <Card title={item.name} style={{ backgroundColor: '#1e1e1e', color: '#ffb74d' }}>
+                    Profit: {item.profit}
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </TabPane>
+          <TabPane tab="Search" key="2">
+            <Input
+              placeholder="Enter company name or symbol"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              style={{ marginBottom: '20px', width: '300px' }}
+            />
+            <div style={{ marginBottom: '20px', fontSize: '18px', color: '#ffb74d' }}>Top Performing Puts and Calls</div>
+            <List
+              grid={{ gutter: 16, column: 3 }}
+              dataSource={recommendations}
+              renderItem={item => (
+                <List.Item>
+                  <Card title={item.symbol} style={{ backgroundColor: '#1e1e1e', color: '#ffb74d' }}>
+                    {item.recommendation}
+                    <Button
+                      icon={<StarOutlined />}
+                      style={{ marginLeft: '10px' }}
+                      onClick={() => addFavorite(item.symbol)}
+                    />
+                  </Card>
+                </List.Item>
+              )}
+            />
+            {favorites.length > 0 && (
+              <div style={{ marginTop: '40px' }}>
+                <div style={{ marginBottom: '10px', fontSize: '18px', color: '#ffb74d' }}>Favorite Companies</div>
+                <List
+                  grid={{ gutter: 16, column: 2 }}
+                  dataSource={favorites}
+                  renderItem={item => (
+                    <List.Item>
+                      <Card title={item.symbol} style={{ backgroundColor: '#1e1e1e', color: '#ffb74d' }}>
+                        {item.recommendation}
+                      </Card>
+                    </List.Item>
+                  )}
+                />
+              </div>
+            )}
+          </TabPane>
+        </Tabs>
+      </Content>
+    </Layout>
   );
 };
-
-const ReachApp = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: { backgroundColor: '#121212' },
-          tabBarActiveTintColor: '#ffb74d',
-          tabBarInactiveTintColor: '#777',
-        }}
-      >
-        <Tab.Screen name="My Investments" component={InvestmentsTab} />
-        <Tab.Screen name="Search" component={SearchTab} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#121212',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#ffb74d',
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#bbb',
-    marginBottom: 10,
-  },
-  input: {
-    height: 40,
-    borderColor: '#333',
-    borderWidth: 1,
-    borderRadius: 5,
-    width: '80%',
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    color: '#fff',
-    backgroundColor: '#1e1e1e',
-  },
-  card: {
-    backgroundColor: '#1e1e1e',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 10,
-    width: '90%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  cardHorizontal: {
-    backgroundColor: '#1e1e1e',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginRight: 10,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    flexDirection: 'row',
-  },
-  stockSymbol: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffb74d',
-    marginRight: 10,
-  },
-  recommendationText: {
-    fontSize: 16,
-    color: '#bbb',
-    marginRight: 10,
-  },
-  favoritesContainer: {
-    marginTop: 20,
-    width: '100%',
-    alignItems: 'center',
-  },
-});
 
 export default ReachApp;
 
+/* ReachApp.css */
+body {
+  background-color: #121212;
+  color: #fff;
+}
+.ant-layout {
+  background: #121212;
+}
+.ant-card {
+  border: none;
+}
+.ant-card-head-title {
+  color: #ffb74d;
+}
+.ant-tabs-tab-btn {
+  color: #ffb74d;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #ffb74d;
+}
+.ant-input {
+  background-color: #1e1e1e;
+  color: #fff;
+  border-color: #333;
+}
 
