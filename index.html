@@ -5,9 +5,227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenpo - Digital Product Automation</title>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #f0f4ff;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            color: #0f1c5a;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #535c79;
+            margin: 20px 0;
+        }
+
+        .btn-primary {
+            background-color: #ff6d28;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #e65c24;
+        }
+
+        .estimation {
+            background: #ffffff;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .estimation h2 {
+            color: #0f1c5a;
+            margin-bottom: 30px;
+        }
+
+        .estimation-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .estimation-form select,
+        .estimation-form button {
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .use-case {
+            background: #f9fafc;
+            padding: 50px 0;
+        }
+
+        .use-case h2 {
+            color: #0f1c5a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .use-case-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #0f1c5a;
+            font-weight: 600;
+        }
+
+        .chart-section {
+            background: #ffffff;
+            padding: 50px 0;
+        }
+
+        .chart-section h2 {
+            color: #0f1c5a;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-section p {
+            color: #535c79;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .chart-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .chart-item {
+            width: 300px;
+            height: 200px;
+            background: #f0f4ff;
+            border-radius: 10px;
+        }
+
+        .features {
+            background: #f9fafc;
+            padding: 50px 0;
+        }
+
+        .features h2 {
+            color: #0f1c5a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #0f1c5a;
+            font-weight: 600;
+        }
+
+        .pricing {
+            background: #0f1c5a;
+            padding: 50px 0;
+            color: #ffffff;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .pricing-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #0f1c5a;
+        }
+
+        .pricing-card h3 {
+            margin-bottom: 15px;
+            color: #ff6d28;
+        }
+
+        .pricing-card p {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .pricing-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card ul li {
+            margin: 10px 0;
+            color: #535c79;
+        }
+
+        .footer {
+            background: #f0f4ff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #535c79;
+            margin: 10px 0;
+        }
+
+        .social-links img {
+            width: 24px;
+            height: 24px;
+            margin: 0 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +233,7 @@
     <header class="header">
         <div class="container">
             <h1>Tenpo</h1>
-            <p>Save money & time by creating digital product with automated UIs and coding based on your requirements in all in one solution</p>
+            <p>Save money & time by creating digital products with automated UIs and coding based on your requirements in all in one solution</p>
             <button class="btn-primary">Book a demo</button>
         </div>
     </header>
