@@ -1,7 +1,7 @@
 // REACH Stock Advisor App
 
 import React from 'react';
-import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 
 const ReachApp = () => {
@@ -11,15 +11,14 @@ const ReachApp = () => {
     fetchRecommendations();
   }, []);
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = () => {
     // Placeholder for fetching stock recommendations for S&P 500
-    // In a real application, this would be replaced by an API call to a financial data provider
     const sp500Stocks = [
-      { symbol: 'AAPL', recommendation: 'buy' },
-      { symbol: 'MSFT', recommendation: 'sell' },
-      { symbol: 'AMZN', recommendation: 'buy' },
-      { symbol: 'GOOGL', recommendation: 'sell' },
-      { symbol: 'FB', recommendation: 'buy' },
+      { symbol: 'AAPL', recommendation: 'Recommend buying' },
+      { symbol: 'MSFT', recommendation: 'Recommend selling' },
+      { symbol: 'AMZN', recommendation: 'Recommend buying' },
+      { symbol: 'GOOGL', recommendation: 'Recommend selling' },
+      { symbol: 'META', recommendation: 'Recommend buying' },
     ];
     setRecommendations(sp500Stocks);
   };
@@ -27,9 +26,7 @@ const ReachApp = () => {
   const renderRecommendation = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.stockSymbol}>{item.symbol}</Text>
-      <Text style={styles.recommendationText}>
-        {item.recommendation === 'buy' ? 'Recommend buying' : 'Recommend selling'}
-      </Text>
+      <Text style={styles.recommendationText}>{item.recommendation}</Text>
     </View>
   );
 
@@ -72,7 +69,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '90%',
     alignItems: 'center',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   stockSymbol: {
     fontSize: 20,
