@@ -1,12 +1,7 @@
-// REACH Stock Advisor App - Simplified Web Version
+// REACH Stock Advisor App - Simplified Functional Version
 
 import React, { useState, useEffect } from 'react';
-import { Tabs, Input, Button, List, Card } from 'antd';
-import { StarOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.dark.css';
 import './ReachApp.css';
-
-const { TabPane } = Tabs;
 
 const ReachApp = () => {
   const [openPositions, setOpenPositions] = useState([
@@ -22,7 +17,6 @@ const ReachApp = () => {
   }, []);
 
   const fetchRecommendations = () => {
-    // Placeholder for fetching top performing puts and calls
     const topPerformers = [
       { symbol: 'AAPL', recommendation: 'Call - +8%' },
       { symbol: 'MSFT', recommendation: 'Put - +5%' },
@@ -32,7 +26,7 @@ const ReachApp = () => {
   };
 
   const addFavorite = (symbol) => {
-    if (!favorites.some(fav => fav.symbol === symbol)) {
+    if (!favorites.some((fav) => fav.symbol === symbol)) {
       setFavorites([...favorites, { symbol, recommendation: `Turbo recommendation for ${symbol}` }]);
     }
   };
@@ -40,62 +34,55 @@ const ReachApp = () => {
   return (
     <div className="reach-app">
       <h1 className="header">REACH - Stock Advisor</h1>
-      <Tabs defaultActiveKey="1" centered>
-        <TabPane tab="My Investments" key="1">
-          <List
-            grid={{ gutter: 16, column: 2 }}
-            dataSource={openPositions}
-            renderItem={item => (
-              <List.Item>
-                <Card title={item.name} className="card">
-                  Profit: {item.profit}
-                </Card>
-              </List.Item>
-            )}
-          />
-        </TabPane>
-        <TabPane tab="Search" key="2">
-          <Input
+      <div className="tabs">
+        <button className="tab-button" onClick={() => setSearchText('investments')}>My Investments</button>
+        <button className="tab-button" onClick={() => setSearchText('search')}>Search</button>
+      </div>
+      {searchText === 'investments' && (
+        <div>
+          <h2 className="subtitle">My Investments</h2>
+          {openPositions.map((position) => (
+            <div key={position.id} className="card">
+              <h3>{position.name}</h3>
+              <p>Profit: {position.profit}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {searchText === 'search' && (
+        <div>
+          <input
+            type="text"
             placeholder="Enter company name or symbol"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            style={{ marginBottom: '20px', width: '300px' }}
+            className="input"
           />
-          <div className="subtitle">Top Performing Puts and Calls</div>
-          <List
-            grid={{ gutter: 16, column: 3 }}
-            dataSource={recommendations}
-            renderItem={item => (
-              <List.Item>
-                <Card title={item.symbol} className="card">
-                  {item.recommendation}
-                  <Button
-                    icon={<StarOutlined />}
-                    style={{ marginLeft: '10px' }}
-                    onClick={() => addFavorite(item.symbol)}
-                  />
-                </Card>
-              </List.Item>
-            )}
-          />
+          <h2 className="subtitle">Top Performing Puts and Calls</h2>
+          <div className="recommendations">
+            {recommendations.map((item) => (
+              <div key={item.symbol} className="card">
+                <h3>{item.symbol}</h3>
+                <p>{item.recommendation}</p>
+                <button className="favorite-button" onClick={() => addFavorite(item.symbol)}>
+                  Add to Favorites
+                </button>
+              </div>
+            ))}
+          </div>
           {favorites.length > 0 && (
-            <div style={{ marginTop: '40px' }}>
-              <div className="subtitle">Favorite Companies</div>
-              <List
-                grid={{ gutter: 16, column: 2 }}
-                dataSource={favorites}
-                renderItem={item => (
-                  <List.Item>
-                    <Card title={item.symbol} className="card">
-                      {item.recommendation}
-                    </Card>
-                  </List.Item>
-                )}
-              />
+            <div className="favorites">
+              <h2 className="subtitle">Favorite Companies</h2>
+              {favorites.map((item) => (
+                <div key={item.symbol} className="card">
+                  <h3>{item.symbol}</h3>
+                  <p>{item.recommendation}</p>
+                </div>
+              ))}
             </div>
           )}
-        </TabPane>
-      </Tabs>
+        </div>
+      )}
     </div>
   );
 };
@@ -119,19 +106,48 @@ body {
   text-align: center;
   margin-bottom: 20px;
 }
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.tab-button {
+  background-color: #1e1e1e;
+  color: #ffb74d;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.tab-button:hover {
+  background-color: #333;
+}
 .card {
   background-color: #1e1e1e;
   color: #ffb74d;
   border: none;
-}
-.subtitle {
-  font-size: 18px;
-  color: #ffb74d;
+  padding: 20px;
   margin-bottom: 20px;
+  border-radius: 8px;
 }
-.ant-input {
+.input {
   background-color: #1e1e1e;
   color: #fff;
-  border-color: #333;
+  border: 1px solid #333;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.favorite-button {
+  background-color: #ffb74d;
+  color: #121212;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.favorite-button:hover {
+  background-color: #ffa726;
 }
 
