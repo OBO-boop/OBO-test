@@ -1,412 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
+// REACH Stock Advisor App
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tenpo - Digital Product Automation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+import React from 'react';
+import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
 
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+const ReachApp = () => {
+  const [recommendations, setRecommendations] = useState([]);
 
-        .header {
-            background: #f0f4ff;
-            padding: 50px 0;
-            text-align: center;
-        }
+  useEffect(() => {
+    fetchRecommendations();
+  }, []);
 
-        .header h1 {
-            font-size: 48px;
-            color: #0f1c5a;
-        }
+  const fetchRecommendations = async () => {
+    // Placeholder for fetching stock recommendations for S&P 500
+    // In a real application, this would be replaced by an API call to a financial data provider
+    const sp500Stocks = [
+      { symbol: 'AAPL', recommendation: 'buy' },
+      { symbol: 'MSFT', recommendation: 'sell' },
+      { symbol: 'AMZN', recommendation: 'buy' },
+      { symbol: 'GOOGL', recommendation: 'sell' },
+      { symbol: 'FB', recommendation: 'buy' },
+    ];
+    setRecommendations(sp500Stocks);
+  };
 
-        .header p {
-            font-size: 18px;
-            color: #535c79;
-            margin: 20px 0;
-        }
+  const renderRecommendation = ({ item }) => (
+    <View style={styles.card}>
+      <Text style={styles.stockSymbol}>{item.symbol}</Text>
+      <Text style={styles.recommendationText}>
+        {item.recommendation === 'buy' ? 'Recommend buying' : 'Recommend selling'}
+      </Text>
+    </View>
+  );
 
-        .btn-primary {
-            background-color: #ff6d28;
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>REACH - Stock Advisor</Text>
+      <Text style={styles.subtitle}>Recommendations for S&P 500 Stocks</Text>
+      <FlatList
+        data={recommendations}
+        renderItem={renderRecommendation}
+        keyExtractor={(item) => item.symbol}
+      />
+    </View>
+  );
+};
 
-        .btn-primary:hover {
-            background-color: #e65c24;
-        }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#f0f4ff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#0f1c5a',
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#535c79',
+    marginBottom: 20,
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: '90%',
+    alignItems: 'center',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  },
+  stockSymbol: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#0f1c5a',
+  },
+  recommendationText: {
+    fontSize: 16,
+    color: '#535c79',
+  },
+});
 
-        .estimation {
-            background: #ffffff;
-            padding: 50px 0;
-            text-align: center;
-        }
+export default ReachApp;
 
-        .estimation h2 {
-            color: #0f1c5a;
-            margin-bottom: 30px;
-        }
-
-        .estimation-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .estimation-form select,
-        .estimation-form button {
-            padding: 15px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .use-case {
-            background: #f9fafc;
-            padding: 50px 0;
-        }
-
-        .use-case h2 {
-            color: #0f1c5a;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .use-case-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .use-case-card {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            color: #0f1c5a;
-            font-weight: 600;
-        }
-
-        .chart-section {
-            background: #ffffff;
-            padding: 50px 0;
-        }
-
-        .chart-section h2 {
-            color: #0f1c5a;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .chart-section p {
-            color: #535c79;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .chart-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .chart-item {
-            width: 300px;
-            height: 200px;
-            background: #f0f4ff;
-            border-radius: 10px;
-        }
-
-        .features {
-            background: #f9fafc;
-            padding: 50px 0;
-        }
-
-        .features h2 {
-            color: #0f1c5a;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .feature-card {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            color: #0f1c5a;
-            font-weight: 600;
-        }
-
-        .pricing {
-            background: #0f1c5a;
-            padding: 50px 0;
-            color: #ffffff;
-        }
-
-        .pricing h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .pricing-card {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            color: #0f1c5a;
-        }
-
-        .pricing-card h3 {
-            margin-bottom: 15px;
-            color: #ff6d28;
-        }
-
-        .pricing-card p {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .pricing-card ul {
-            list-style-type: none;
-            padding: 0;
-            margin-bottom: 20px;
-        }
-
-        .pricing-card ul li {
-            margin: 10px 0;
-            color: #535c79;
-        }
-
-        .footer {
-            background: #f0f4ff;
-            padding: 20px 0;
-            text-align: center;
-        }
-
-        .footer p {
-            color: #535c79;
-            margin: 10px 0;
-        }
-
-        .social-links img {
-            width: 24px;
-            height: 24px;
-            margin: 0 10px;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container">
-            <h1>Tenpo</h1>
-            <p>Save money & time by creating digital products with automated UIs and coding based on your requirements in all in one solution</p>
-            <button class="btn-primary">Book a demo</button>
-        </div>
-    </header>
-
-    <!-- Estimation Form Section -->
-    <section class="estimation">
-        <div class="container">
-            <h2>Free Project Estimation Generator</h2>
-            <form class="estimation-form">
-                <select name="development-type" required>
-                    <option value="">Development Type</option>
-                    <option value="frontend">Frontend</option>
-                    <option value="backend">Backend</option>
-                </select>
-                <select name="type-work" required>
-                    <option value="">Type of Project</option>
-                    <option value="website">Website</option>
-                    <option value="mobile-app">Mobile App</option>
-                    <option value="backend-service">Backend Service</option>
-                </select>
-                <select name="main-feature" required>
-                    <option value="">Main Feature</option>
-                    <option value="authentication">Authentication</option>
-                    <option value="data-processing">Data Processing</option>
-                    <option value="user-profiles">User Profiles</option>
-                </select>
-                <select name="desired-interface" required>
-                    <option value="">Desired Interface</option>
-                    <option value="simple">Simple</option>
-                    <option value="advanced">Advanced</option>
-                </select>
-                <select name="industry-requirements" required>
-                    <option value="">Industry Requirements</option>
-                    <option value="e-commerce">E-Commerce</option>
-                    <option value="healthcare">Healthcare</option>
-                    <option value="finance">Finance</option>
-                </select>
-                <select name="integrations" required>
-                    <option value="">Integration Requirements with Other Systems</option>
-                    <option value="crm">CRM</option>
-                    <option value="payment-gateway">Payment Gateway</option>
-                    <option value="erp">ERP</option>
-                </select>
-                <select name="team-size" required>
-                    <option value="">Number of users or target audience</option>
-                    <option value="1-10">1-10</option>
-                    <option value="11-50">11-50</option>
-                    <option value="50+">50+</option>
-                </select>
-                <button type="submit" class="btn-primary">Estimate</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Use Case Section -->
-    <section class="use-case">
-        <div class="container">
-            <h2>See how our solution adapts to a wide range of needs, simplifying and accelerating the creation of custom interfaces no matter the scope of your project</h2>
-            <div class="use-case-grid">
-                <div class="use-case-card">Individual User</div>
-                <div class="use-case-card">UX/UI Designer</div>
-                <div class="use-case-card">Entrepreneur</div>
-                <div class="use-case-card">Front-End Developer</div>
-                <div class="use-case-card">Marketing Manager</div>
-                <div class="use-case-card">Product Manager</div>
-                <div class="use-case-card">Manager</div>
-                <div class="use-case-card">CTO</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Chart Section -->
-    <section class="chart-section">
-        <div class="container">
-            <h2>The best way to do it is to try it out</h2>
-            <p>Register and start creating now</p>
-            <div class="chart-grid">
-                <div class="chart-item"> <!-- Placeholder for a graph image or element --> </div>
-                <div class="chart-item"> <!-- Placeholder for a graph image or element --> </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <h2>A complete suite of features to build what customers value</h2>
-            <div class="features-grid">
-                <div class="feature-card">Agile Training</div>
-                <div class="feature-card">Roadmap & Dashboard</div>
-                <div class="feature-card">Brainstorming</div>
-                <div class="feature-card">Automatic requirement creation</div>
-                <div class="feature-card">Automatic UI</div>
-                <div class="feature-card">Automatic code creation</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing">
-        <div class="container">
-            <h2>Pricing</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>The Explorer</h3>
-                    <p>€80 / seat / month</p>
-                    <ul>
-                        <li>Training</li>
-                        <li>Virtual brainstorming</li>
-                        <li>Roadmap & onboarding</li>
-                        <li>Reporting</li>
-                        <li>UI creation</li>
-                    </ul>
-                    <button class="btn-primary">Get Started</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>The Achiever</h3>
-                    <p>€300 / seat / month</p>
-                    <ul>
-                        <li>All from previous tier</li>
-                        <li>Automatic UI creation</li>
-                        <li>Access to the Doers community</li>
-                    </ul>
-                    <button class="btn-primary">Get Started</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>The Doer</h3>
-                    <p>€500 / seat / month</p>
-                    <ul>
-                        <li>All from previous tier</li>
-                        <li>Automatic code creation</li>
-                        <li>Dedicated customer success</li>
-                    </ul>
-                    <button class="btn-primary">Get Started</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="container">
-            <p>Tenpo &copy; 2024 All rights reserved</p>
-            <div class="social-links">
-                <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
-                <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
-                <a href="#"><img src="linkedin-icon.png" alt="LinkedIn"></a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // GSAP Animation for smooth scrolling elements
-        gsap.from(".header", { opacity: 0, duration: 1.5, y: -50 });
-        gsap.from(".use-case-card", {
-            opacity: 0,
-            duration: 1,
-            y: 50,
-            stagger: 0.3
-        });
-        gsap.from(".feature-card", {
-            opacity: 0,
-            duration: 1,
-            y: 50,
-            stagger: 0.3
-        });
-        gsap.from(".pricing-card", {
-            opacity: 0,
-            duration: 1,
-            y: 50,
-            stagger: 0.3
-        });
-    </script>
-</body>
-
-</html>
