@@ -1,13 +1,12 @@
-// REACH Stock Advisor App with Minimalist Dark Mode Design (Web Version)
+// REACH Stock Advisor App - Simplified Web Version
 
 import React, { useState, useEffect } from 'react';
-import { Tabs, Input, Button, List, Card, Layout } from 'antd';
+import { Tabs, Input, Button, List, Card } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.dark.css';
 import './ReachApp.css';
 
 const { TabPane } = Tabs;
-const { Header, Content } = Layout;
 
 const ReachApp = () => {
   const [openPositions, setOpenPositions] = useState([
@@ -39,69 +38,65 @@ const ReachApp = () => {
   };
 
   return (
-    <Layout>
-      <Header style={{ color: '#ffb74d', fontSize: '24px', fontWeight: 'bold', textAlign: 'center' }}>
-        REACH - Stock Advisor
-      </Header>
-      <Content style={{ padding: '20px' }}>
-        <Tabs defaultActiveKey="1" centered>
-          <TabPane tab="My Investments" key="1">
-            <List
-              grid={{ gutter: 16, column: 2 }}
-              dataSource={openPositions}
-              renderItem={item => (
-                <List.Item>
-                  <Card title={item.name} style={{ backgroundColor: '#1e1e1e', color: '#ffb74d' }}>
-                    Profit: {item.profit}
-                  </Card>
-                </List.Item>
-              )}
-            />
-          </TabPane>
-          <TabPane tab="Search" key="2">
-            <Input
-              placeholder="Enter company name or symbol"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              style={{ marginBottom: '20px', width: '300px' }}
-            />
-            <div style={{ marginBottom: '20px', fontSize: '18px', color: '#ffb74d' }}>Top Performing Puts and Calls</div>
-            <List
-              grid={{ gutter: 16, column: 3 }}
-              dataSource={recommendations}
-              renderItem={item => (
-                <List.Item>
-                  <Card title={item.symbol} style={{ backgroundColor: '#1e1e1e', color: '#ffb74d' }}>
-                    {item.recommendation}
-                    <Button
-                      icon={<StarOutlined />}
-                      style={{ marginLeft: '10px' }}
-                      onClick={() => addFavorite(item.symbol)}
-                    />
-                  </Card>
-                </List.Item>
-              )}
-            />
-            {favorites.length > 0 && (
-              <div style={{ marginTop: '40px' }}>
-                <div style={{ marginBottom: '10px', fontSize: '18px', color: '#ffb74d' }}>Favorite Companies</div>
-                <List
-                  grid={{ gutter: 16, column: 2 }}
-                  dataSource={favorites}
-                  renderItem={item => (
-                    <List.Item>
-                      <Card title={item.symbol} style={{ backgroundColor: '#1e1e1e', color: '#ffb74d' }}>
-                        {item.recommendation}
-                      </Card>
-                    </List.Item>
-                  )}
-                />
-              </div>
+    <div className="reach-app">
+      <h1 className="header">REACH - Stock Advisor</h1>
+      <Tabs defaultActiveKey="1" centered>
+        <TabPane tab="My Investments" key="1">
+          <List
+            grid={{ gutter: 16, column: 2 }}
+            dataSource={openPositions}
+            renderItem={item => (
+              <List.Item>
+                <Card title={item.name} className="card">
+                  Profit: {item.profit}
+                </Card>
+              </List.Item>
             )}
-          </TabPane>
-        </Tabs>
-      </Content>
-    </Layout>
+          />
+        </TabPane>
+        <TabPane tab="Search" key="2">
+          <Input
+            placeholder="Enter company name or symbol"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ marginBottom: '20px', width: '300px' }}
+          />
+          <div className="subtitle">Top Performing Puts and Calls</div>
+          <List
+            grid={{ gutter: 16, column: 3 }}
+            dataSource={recommendations}
+            renderItem={item => (
+              <List.Item>
+                <Card title={item.symbol} className="card">
+                  {item.recommendation}
+                  <Button
+                    icon={<StarOutlined />}
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => addFavorite(item.symbol)}
+                  />
+                </Card>
+              </List.Item>
+            )}
+          />
+          {favorites.length > 0 && (
+            <div style={{ marginTop: '40px' }}>
+              <div className="subtitle">Favorite Companies</div>
+              <List
+                grid={{ gutter: 16, column: 2 }}
+                dataSource={favorites}
+                renderItem={item => (
+                  <List.Item>
+                    <Card title={item.symbol} className="card">
+                      {item.recommendation}
+                    </Card>
+                  </List.Item>
+                )}
+              />
+            </div>
+          )}
+        </TabPane>
+      </Tabs>
+    </div>
   );
 };
 
@@ -111,21 +106,28 @@ export default ReachApp;
 body {
   background-color: #121212;
   color: #fff;
+  font-family: Arial, sans-serif;
 }
-.ant-layout {
-  background: #121212;
+.reach-app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
-.ant-card {
+.header {
+  color: #ffb74d;
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.card {
+  background-color: #1e1e1e;
+  color: #ffb74d;
   border: none;
 }
-.ant-card-head-title {
+.subtitle {
+  font-size: 18px;
   color: #ffb74d;
-}
-.ant-tabs-tab-btn {
-  color: #ffb74d;
-}
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #ffb74d;
+  margin-bottom: 20px;
 }
 .ant-input {
   background-color: #1e1e1e;
